@@ -1,0 +1,287 @@
+[
+  {
+    "id": 1,
+    "name": "正常重叠_水平偏移",
+    "box1": [
+      0,
+      0,
+      4,
+      4
+    ],
+    "box2": [
+      2,
+      1,
+      3,
+      3
+    ],
+    "expected": true,
+    "method": "equivalence_class",
+    "purpose": "两个矩形有非零面积重叠（内部相交）"
+  },
+  {
+    "id": 2,
+    "name": "正常重叠_垂直偏移",
+    "box1": [
+      1,
+      1,
+      2,
+      5
+    ],
+    "box2": [
+      0,
+      3,
+      4,
+      2
+    ],
+    "expected": true,
+    "method": "equivalence_class",
+    "purpose": "两个矩形有非零面积重叠（垂直方向相交）"
+  },
+  {
+    "id": 3,
+    "name": "完全分离_水平无重叠",
+    "box1": [
+      0,
+      0,
+      2,
+      2
+    ],
+    "box2": [
+      3,
+      0,
+      2,
+      2
+    ],
+    "expected": false,
+    "method": "equivalence_class",
+    "purpose": "x方向完全分离，无任何重叠"
+  },
+  {
+    "id": 4,
+    "name": "完全分离_垂直无重叠",
+    "box1": [
+      0,
+      0,
+      2,
+      2
+    ],
+    "box2": [
+      0,
+      3,
+      2,
+      2
+    ],
+    "expected": false,
+    "method": "equivalence_class",
+    "purpose": "y方向完全分离，无任何重叠"
+  },
+  {
+    "id": 5,
+    "name": "包含_小矩形在大矩形内",
+    "box1": [
+      0,
+      0,
+      6,
+      6
+    ],
+    "box2": [
+      1,
+      1,
+      2,
+      2
+    ],
+    "expected": true,
+    "method": "equivalence_class",
+    "purpose": "box2完全位于box1内部，存在非零面积重叠"
+  },
+  {
+    "id": 6,
+    "name": "仅边接触_右左邻接",
+    "box1": [
+      0,
+      0,
+      2,
+      2
+    ],
+    "box2": [
+      2,
+      0,
+      2,
+      2
+    ],
+    "expected": false,
+    "method": "boundary_value",
+    "purpose": "右边界与左边界重合（x=2），仅线段接触，面积为0"
+  },
+  {
+    "id": 7,
+    "name": "仅边接触_上下邻接",
+    "box1": [
+      0,
+      0,
+      2,
+      2
+    ],
+    "box2": [
+      0,
+      2,
+      2,
+      2
+    ],
+    "expected": false,
+    "method": "boundary_value",
+    "purpose": "下边界与上边界重合（y=2），仅线段接触，面积为0"
+  },
+  {
+    "id": 8,
+    "name": "仅角接触_右上角对左下角",
+    "box1": [
+      0,
+      0,
+      2,
+      2
+    ],
+    "box2": [
+      2,
+      2,
+      1,
+      1
+    ],
+    "expected": false,
+    "method": "boundary_value",
+    "purpose": "单点接触（角对角），面积为0"
+  },
+  {
+    "id": 9,
+    "name": "完全重合",
+    "box1": [
+      1,
+      1,
+      3,
+      3
+    ],
+    "box2": [
+      1,
+      1,
+      3,
+      3
+    ],
+    "expected": true,
+    "method": "equivalence_class",
+    "purpose": "两个矩形完全一致，重叠面积等于自身面积"
+  },
+  {
+    "id": 10,
+    "name": "十字形重叠_水平长竖直短交叉",
+    "box1": [
+      0,
+      1,
+      4,
+      1
+    ],
+    "box2": [
+      1,
+      0,
+      1,
+      4
+    ],
+    "expected": true,
+    "method": "equivalence_class",
+    "purpose": "十字形交叉，中心区域为1×1非零面积重叠"
+  },
+  {
+    "id": 11,
+    "name": "宽度为0_非法输入",
+    "box1": [
+      0,
+      0,
+      0,
+      2
+    ],
+    "box2": [
+      1,
+      1,
+      2,
+      2
+    ],
+    "expected": null,
+    "method": "boundary_value",
+    "purpose": "Width1 = 0，违反正整数约束"
+  },
+  {
+    "id": 12,
+    "name": "高度为负_非法输入",
+    "box1": [
+      0,
+      0,
+      2,
+      -1
+    ],
+    "box2": [
+      1,
+      1,
+      2,
+      2
+    ],
+    "expected": null,
+    "method": "boundary_value",
+    "purpose": "Height1 < 0，违反正整数约束"
+  },
+  {
+    "id": 13,
+    "name": "坐标非整数_非法输入",
+    "box1": [
+      0.5,
+      0,
+      2,
+      2
+    ],
+    "box2": [
+      1,
+      1,
+      2,
+      2
+    ],
+    "expected": null,
+    "method": "equivalence_class",
+    "purpose": "X1Coord非整数，输入类型非法（题目隐含整数坐标）"
+  },
+  {
+    "id": 14,
+    "name": "宽度边界值1",
+    "box1": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "box2": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "expected": true,
+    "method": "boundary_value",
+    "purpose": "Width=1和Height=1的最小合法正整数，完全重合"
+  },
+  {
+    "id": 15,
+    "name": "仅边接触_左边界对右边界（反向）",
+    "box1": [
+      2,
+      0,
+      2,
+      2
+    ],
+    "box2": [
+      0,
+      0,
+      2,
+      2
+    ],
+    "expected": false,
+    "method": "boundary_value",
+    "purpose": "box1左边界（x=2）与box2右边界（x=2）重合，仅边接触"
+  }
+]

@@ -1,0 +1,58 @@
+import json
+import os
+from pathlib import Path
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+PROMPT_TEMPLATE = """你是一名软件测试课程助教。请为“四边形覆盖问题”生成黑盒测试用例。
+
+问题定义：
+- 输入：两个四边形（实际上是与坐标轴平行的矩形）
+  记为 (X1Coord, Y1Coord, Width1, Height1) 和 (X2Coord, Y2Coord, Width2, Height2)
+- 其中坐标表示左上角坐标，宽和高必须为正整数
+- 输出：两个四边形是否存在覆盖关系
+- 判定标准：当且仅当两个四边形存在“非零面积”的重叠时，输出 true，否则输出 false
+
+请按以下要求生成：
+1. 同时使用“等价类划分”和“边界值分析”两种方法。
+2. 必须覆盖：正常重叠、完全分离、包含、仅边接触、仅角接触、完全重合、十字形重叠、非法输入。
+3. 每条用例都要给出：id、name、box1、box2、expected、method、purpose。
+4. 非法输入用例 expected 填 null。
+5. 只输出 JSON 数组，不要输出 Markdown，不要解释。
+6. 坐标和宽高请尽量使用小整数，便于人工核对。
+"""
+
+
+def build_client() -> OpenAI:
+    api_key = os.getenv("DASHSCOPE_API_KEY")
+    if not api_key:
+        raise RuntimeError("未检测到 DASHSCOPE_API_KEY 环境变量")
+    base_url = os.getenv("DASHSCOPE_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+    return OpenAI(api_key=api_key, base_url=base_url)
+
+
+def main() -> None:
+    client = build_client()
+    model = os.getenv("QWEN_MODEL", "qwen-plus")
+    completion = client.chat.completions.create(
+        model=model,
+        temperature=0.2,
+        messages=[
+            {"role": "system", "content": "You are a helpful software testing assistant."},
+            {"role": "user", "content": PROMPT_TEMPLATE},
+        ],
+    )
+    content = completion.choices[0].message.content
+
+    base = Path(__file__).resolve().parent
+    out = base / "qwen_generated_cases.json"
+
+    parsed = json.loads(content)
+    out.write_text(json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"已生成: {out}")
+
+
+if __name__ == "__main__":
+    main()

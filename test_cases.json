@@ -1,0 +1,119 @@
+[
+  {
+    "id": "EC01",
+    "name": "正常重叠-部分面积重叠",
+    "box1": {"x": 0, "y": 0, "width": 4, "height": 4},
+    "box2": {"x": 2, "y": 1, "width": 4, "height": 4},
+    "expected": true,
+    "method": "有效等价类",
+    "purpose": "验证基本功能：存在非零面积重叠时应返回True"
+  },
+  {
+    "id": "EC02",
+    "name": "正常分离-水平分离",
+    "box1": {"x": 0, "y": 0, "width": 2, "height": 2},
+    "box2": {"x": 5, "y": 0, "width": 2, "height": 2},
+    "expected": false,
+    "method": "有效等价类",
+    "purpose": "两个矩形左右分离，无覆盖"
+  },
+  {
+    "id": "EC03",
+    "name": "正常分离-垂直分离",
+    "box1": {"x": 0, "y": 0, "width": 2, "height": 2},
+    "box2": {"x": 0, "y": 5, "width": 2, "height": 2},
+    "expected": false,
+    "method": "有效等价类",
+    "purpose": "两个矩形上下分离，无覆盖"
+  },
+  {
+    "id": "EC04",
+    "name": "包含-矩形1包含矩形2",
+    "box1": {"x": 0, "y": 0, "width": 8, "height": 8},
+    "box2": {"x": 2, "y": 2, "width": 2, "height": 2},
+    "expected": true,
+    "method": "有效等价类",
+    "purpose": "一个矩形完全包含另一个矩形，属于覆盖"
+  },
+  {
+    "id": "EC05",
+    "name": "包含-矩形2包含矩形1",
+    "box1": {"x": 3, "y": 3, "width": 2, "height": 2},
+    "box2": {"x": 0, "y": 0, "width": 10, "height": 10},
+    "expected": true,
+    "method": "有效等价类",
+    "purpose": "交换包含方向，验证对称性"
+  },
+  {
+    "id": "BV01",
+    "name": "边界-右边界刚好接触",
+    "box1": {"x": 0, "y": 0, "width": 2, "height": 2},
+    "box2": {"x": 2, "y": 0, "width": 3, "height": 2},
+    "expected": false,
+    "method": "边界值",
+    "purpose": "仅边接触，重叠面积为0，不应判定为覆盖"
+  },
+  {
+    "id": "BV02",
+    "name": "边界-下边界刚好接触",
+    "box1": {"x": 0, "y": 0, "width": 2, "height": 2},
+    "box2": {"x": 0, "y": 2, "width": 2, "height": 3},
+    "expected": false,
+    "method": "边界值",
+    "purpose": "仅边接触，验证垂直方向边界"
+  },
+  {
+    "id": "BV03",
+    "name": "边界-右上角刚好接触",
+    "box1": {"x": 0, "y": 0, "width": 2, "height": 2},
+    "box2": {"x": 2, "y": 2, "width": 2, "height": 2},
+    "expected": false,
+    "method": "边界值",
+    "purpose": "仅顶点接触，重叠面积为0"
+  },
+  {
+    "id": "BV04",
+    "name": "边界-相同矩形",
+    "box1": {"x": 2, "y": 2, "width": 3, "height": 3},
+    "box2": {"x": 2, "y": 2, "width": 3, "height": 3},
+    "expected": true,
+    "method": "边界值",
+    "purpose": "完全重合，属于最大覆盖边界"
+  },
+  {
+    "id": "BV05",
+    "name": "边界-十字形重叠",
+    "box1": {"x": 2, "y": 0, "width": 2, "height": 6},
+    "box2": {"x": 0, "y": 2, "width": 6, "height": 2},
+    "expected": true,
+    "method": "边界值",
+    "purpose": "没有顶点落入对方内部，但存在非零面积重叠，用于抓特殊缺陷"
+  },
+  {
+    "id": "IV01",
+    "name": "无效等价类-X坐标为负",
+    "box1": {"x": -1, "y": 0, "width": 2, "height": 2},
+    "box2": {"x": 0, "y": 0, "width": 2, "height": 2},
+    "expected": null,
+    "method": "无效等价类",
+    "purpose": "题目约束坐标为正整数，界面应拒绝或标记无效输入"
+  },
+  {
+    "id": "IV02",
+    "name": "无效等价类-宽度为0",
+    "box1": {"x": 0, "y": 0, "width": 0, "height": 2},
+    "box2": {"x": 1, "y": 1, "width": 2, "height": 2},
+    "expected": null,
+    "method": "无效等价类",
+    "purpose": "宽度必须大于0，界面应拒绝或标记无效输入"
+  },
+  {
+    "id": "IV03",
+    "name": "无效等价类-高度为小数",
+    "box1": {"x": 0, "y": 0, "width": 2, "height": 1.5},
+    "box2": {"x": 1, "y": 1, "width": 2, "height": 2},
+    "expected": null,
+    "method": "无效等价类",
+    "purpose": "高度必须为整数，界面应拒绝或标记无效输入"
+  }
+]
